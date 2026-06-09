@@ -67,3 +67,6 @@ main  ←── Pull Request ←── feature/person-a
 - [ ] Alle Funktionen implementiert
 - [ ] `main.py` läuft fehlerfrei durch
 - [ ] Beide Personen haben mind. 3 eigene Commits
+
+
+Hallo Noah
