@@ -135,8 +135,13 @@ def classify_value(value: float, limits: dict) -> str:
         >>> classify_value(35.0, grenzen)
         'kritisch'
     """
-    # TODO: Implementierung hier einfügen
-    pass
+    if value < limits["niedrig"]:
+        return "niedrig"
+    if value < limits["normal"]:
+        return "normal"
+    if value < limits["hoch"]:
+        return "hoch"
+    return "kritisch"
 
 
 def filter_by_sensor(data: list[dict], sensor_id: str) -> list[dict]:
