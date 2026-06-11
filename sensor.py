@@ -151,8 +151,13 @@ def classify_value(value: float, limits: dict) -> str:
         >>> classify_value(35.0, grenzen)
         'kritisch'
     """
-    # TODO: Implementierung hier einfügen
-    pass
+    if value < limits["niedrig"]:
+        return "niedrig"
+    if value < limits["normal"]:
+        return "normal"
+    if value < limits["hoch"]:
+        return "hoch"
+    return "kritisch"
 
 
 def filter_by_sensor(data: list[dict], sensor_id: str) -> list[dict]:
@@ -172,8 +177,7 @@ def filter_by_sensor(data: list[dict], sensor_id: str) -> list[dict]:
         >>> all(d["sensor_id"] == "S01" for d in s01)
         True
     """
-    # TODO: Implementierung hier einfügen
-    pass
+    return [entry for entry in data if entry.get("sensor_id") == sensor_id]
 
 
 def generate_report(data: list[dict]) -> str:
@@ -205,6 +209,44 @@ def generate_report(data: list[dict]) -> str:
         ...
         ======================================
     """
-    # TODO: Implementierung hier einfügen
-    pass
+    from statistics import mean
+
+    if not data:
+        return "Keine Messdaten verfügbar."
+
+    sensors = sorted({entry["sensor_id"] for entry in data})
+    temp = [entry["temperatur"] for entry in data]
+    humidity = [entry["luftfeuchtigkeit"] for entry in data]
+    co2 = [entry["co2"] for entry in data]
+
+    def avg(values):
+        return round(mean(values), 2)
+
+    def minmax(values):
+        return min(values), max(values)
+
+    temp_avg = avg(temp)
+    temp_min, temp_max = minmax(temp)
+    hum_avg = avg(humidity)
+    hum_min, hum_max = minmax(humidity)
+    co2_avg = avg(co2)
+    co2_min, co2_max = minmax(co2)
+    critical_temp = sum(1 for value in temp if value > 30)
+
+    return (
+        "========== SensorPy Bericht =========="
+        f"\nMessungen total:       {len(data)}"
+        f"\nSensoren:              {', '.join(sensors)}"
+        "\n\n-- Temperatur (°C) --"
+        f"\nDurchschnitt:          {temp_avg:.2f}"
+        f"\nMin / Max:             {temp_min:.1f} / {temp_max:.1f}"
+        f"\nKritische Werte (>30): {critical_temp}"
+        "\n\n-- Luftfeuchtigkeit (%) --"
+        f"\nDurchschnitt:          {hum_avg:.2f}"
+        f"\nMin / Max:             {hum_min:.1f} / {hum_max:.1f}"
+        "\n\n-- CO2 (ppm) --"
+        f"\nDurchschnitt:          {co2_avg:.2f}"
+        f"\nMin / Max:             {co2_min:.1f} / {co2_max:.1f}"
+        "\n======================================"
+    )
 
