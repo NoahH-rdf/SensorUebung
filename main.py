@@ -9,7 +9,7 @@ Ausführen:
     python main.py
 """
 
-from sensors import (
+from sensor import (
     load_data,
     calculate_average,
     find_extremes,
