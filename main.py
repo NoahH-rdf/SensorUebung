@@ -65,3 +65,8 @@ print(f"  Kritische Werte (>1000 ppm): {count_above_threshold(co2_werte, 1000.0)
 
 # ── Gesamtbericht ─────────────────────────────────────────────
 print(generate_report(daten))
+
+
+
+
+Hier läuft etz alles 
